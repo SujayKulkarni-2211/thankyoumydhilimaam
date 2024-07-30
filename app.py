@@ -30,12 +30,13 @@ def light_random_color():
     """Generate a random light color."""
     return tuple(random.randint(200, 255) for _ in range(3))
 
+from PIL import Image as PILImage, ImageDraw, ImageFont
+
 def generate_image_from_message(name, message):
     font_path = "Lobster/Lobster-Regular.ttf"
     font_size = 50
     margin = 40
     padding = 20
-    max_width = 700  # Adjust as needed
 
     try:
         font = ImageFont.truetype(font_path, font_size)
@@ -44,10 +45,13 @@ def generate_image_from_message(name, message):
 
     full_message = f"{name}: {message}"
     
-    # Create a dummy image to measure text size
-    dummy_image = Image.new('RGB', (1, 1))
+    # Create a dummy image to get text size
+    dummy_image = PILImage.new('RGB', (1, 1))
     draw = ImageDraw.Draw(dummy_image)
 
+    # Define maximum width for text wrapping
+    max_width = 700  # Adjust as needed
+    
     # Wrap text if it's too wide
     lines = []
     words = full_message.split()
@@ -58,7 +62,7 @@ def generate_image_from_message(name, message):
         bbox = draw.textbbox((0, 0), test_line, font=font)
         text_width = bbox[2] - bbox[0]
         
-        if text_width <= max_width:
+        if text_width <= max_width - 2 * padding:
             current_line = test_line
         else:
             if current_line:
@@ -76,14 +80,14 @@ def generate_image_from_message(name, message):
         total_text_height += line_height
     
     # Calculate width and height of the image
-    max_line_width = max(draw.textbbox((0, 0), line, font=font)[2] - draw.textbbox((0, 0), line, font=font)[0] for line in lines)
-    width = min(max(max_line_width + 2 * margin, 400), 800)
-    height = total_text_height + 2 * margin + len(lines) * padding + 2 * padding  # Adding margin, line padding and extra padding
+    text_width = max(draw.textbbox((0, 0), line, font=font)[2] - draw.textbbox((0, 0), line, font=font)[0] for line in lines)
+    width = min(max(text_width + 2 * margin, 400), 800)
+    height = total_text_height + 2 * margin + 2 * padding  # Adding margin and padding
 
     # Create the image with calculated size
     background_color = light_random_color()
     text_color = (0, 0, 0)  # Use black for text
-    image = Image.new('RGB', (width, height), color=background_color)
+    image = PILImage.new('RGB', (width, height), color=background_color)
     draw = ImageDraw.Draw(image)
 
     # Draw the text on the image
