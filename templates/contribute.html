@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Contribute</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url('/static/images/shootingstar.gif') repeat center center fixed;
+            color: #ffffff;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .instructions {
+            background-color: #050000aa;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(254, 254, 254, 0.195);
+        }
+        .form-container {
+            background-color: #000000a1;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .char-count {
+            font-size: 0.9em;
+            color: rgb(202, 197, 197);
+            text-align: right;
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+        .form-group input[type="file"] {
+            padding: 6px 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center mb-4">Contribute Your Message</h1>
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="instructions">
+                    <h2>How to Contribute</h2>
+                    <p>Welcome to the Contribution Page! Here’s how you can contribute:</p>
+                    <ul>
+                        <li>
+                            <strong>Submit Your Photos:</strong>
+                            <p>If you have any photos you’d like to contribute, including handmade greeting cards or any meaningful images, please upload them. This can include personal pictures, event photos, or artistic creations.</p>
+                            <p>Use the provided upload form to submit your photos. Make sure to include a brief description and the name of the person in the photo.</p>
+                        </li>
+                        <li>
+                            <strong>Share Your Messages:</strong>
+                            <p><b><u>If you don’t have photos to contribute, that’s perfectly fine! You can still contribute by sharing messages of appreciation or gratitude.</u></b></p>
+                            <p>Use the message submission form to send your messages. Each message will be displayed on a simple card with lobster font.</p>
+                        </li>
+                        <li>
+                            <strong>Automatic Card Generation:</strong><img src="static/images/200w.gif" alt="" width="30vw" height="30vh">
+                            <p>If you provide a message without an image, the app will automatically generate a card for it, ensuring your message is presented beautifully.</p>
+                        </li>
+                        <li>
+                            <strong>Download All Messages:</strong>
+                            <p>You can download all the messages, including those with and without images, using the "Download" button on the gallery/index page.</p>
+                        </li>
+                    </ul>
+                    <p>Thank you for contributing and helping us make this gallery special!</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-container">
+                    <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="name">Your Name:</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Your Message:</label>
+                            <textarea class="form-control" id="message" name="message" rows="3" maxlength="2000" required></textarea>
+                            <div class="char-count" id="char-count">0/2000</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="image">Upload an Image (optional):</label>
+                            <input type="file" class="form-control-file" id="image" name="image">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                    <a href="{{ url_for('index') }}" class="btn btn-secondary mt-3">Back to Gallery</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const messageInput = document.getElementById('message');
+            const charCount = document.getElementById('char-count');
+            
+            messageInput.addEventListener('input', () => {
+                const currentLength = messageInput.value.length;
+                charCount.textContent = `${currentLength}/2000`;
+            });
+        });
+    </script>
+</body>
+</html>

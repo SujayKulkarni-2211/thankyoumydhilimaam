@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Image Gallery</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+    margin: 0;
+    padding: 0;
+    background: url('/static/images/shootingstar.gif') repeat center center fixed;
+    background-size: contain;
+    position: relative;
+    color: aliceblue;
+}
+
+
+        .wave {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100px;
+            background: url('https://www.sitemaps.org/sitemap/waves.png') repeat-x;
+            animation: waveAnimation 10s linear infinite;
+        }
+
+        @keyframes waveAnimation {
+            from {
+                background-position-x: 0;
+            }
+            to {
+                background-position-x: 1000px;
+            }
+        }
+
+        .image-container {
+            position: relative;
+            display: block;
+            margin: 10px; /* Add margin around each image container */
+        }
+        .description {
+            display: none;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            width: 100%;
+            text-align: center;
+            padding: 10px;
+        }
+        .image-container:hover .description {
+            display: block;
+        }
+        img {
+            width: 100%; /* Ensure image takes up the full width of its container */
+            height: 220px; /* Set a fixed height for the images */
+            object-fit: cover; /* Maintain aspect ratio */
+        }
+        .poem {
+            align-self: center;
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 40px;
+        }
+        .poem .stanza p {
+            margin: 0;
+        }
+        .container {
+            position: relative;
+            z-index: 1;
+        }
+        h1{
+            color: aliceblue;
+        }
+        .footer {
+            position: relative;
+            background: #000; /* Black background for the footer */
+            color: #fff; /* White text color */
+            padding: 20px;
+            text-align: center;
+            font-family: 'Lobster', cursive; /* Use Lobster font */
+        }
+
+        .footer a {
+            color: #ffcc00; /* Highlight color for the link */
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5 text-center">Thank You for Everything Dr. Mydhili Nair Ma'am! Here is a small token of gratitude from all of us!</h1>
+        <div class="d-flex justify-content-center">
+        <p class="text-center "><a href="{{ url_for('contribute') }}" class="btn btn-primary">Contribute</a></p>
+        <p class="text-center ml-5"><a href="{{ url_for('generate_pdf') }}" class="btn btn-primary">Download</a></p>
+        </div>
+        
+        <div class="poem">
+            <div class="stanza">
+                <p>In realms of wisdom, bright and clear,</p>
+                <p>Where thoughts take flight and dreams appear,</p>
+                <p>You’ve led us with a guiding light,</p>
+                <p>Through days and nights, both dark and bright.</p>
+            </div>
+        </div>
+        <div class="row">
+            {% for filename, name, message in images %}
+                <div class="col-lg-4 col-md-6 col-sm-12 mb-4 d-flex justify-content-center">
+                    <div class="image-container">
+                        <a href="{{ url_for('static', filename='uploads/' ~ filename) }}" target="_blank">
+                            <img src="{{ url_for('static', filename='uploads/' ~ filename) }}" alt="Image">
+                        </a>
+                        <div class="description">
+                            <p>{{ message }}</p>
+                            <p><strong>From: {{ name }}</strong></p>
+                            <a href="{{ url_for('static', filename='uploads/' ~ filename) }}" target="_blank">View</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="footer">
+        <p>Designed & Developed by &copy; <a href="https://bit.ly/sujayvitae" target="_blank">Sujay V Kulkarni</a></p>
+    </div>
+
+</body>
+</html>

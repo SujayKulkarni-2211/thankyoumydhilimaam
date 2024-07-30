@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Image Gallery</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .image-container {
+            position: relative;
+            display: inline-block;
+            margin: 10px;
+        }
+        .description {
+            display: none;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            width: 100%;
+            text-align: center;
+            padding: 10px;
+        }
+        .image-container:hover .description {
+            display: block;
+        }
+        img {
+            width: 300px;
+            height: 200px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Welcome to the Image Gallery</h1>
+        <p><a href="{{ url_for('contribute') }}" class="btn btn-primary">Contribute</a></p>
+        <div class="row">
+            {% for filename, name, message in images %}
+                <div class="col-md-4 image-container">
+                    <a href="{{ url_for('static', filename='uploads/' ~ filename) }}" target="_blank">
+                        <img src="{{ url_for('static', filename='uploads/' ~ filename) }}" alt="Image">
+                    </a>
+                    <div class="description">
+                        <p>{{ message }}</p>
+                        <p><strong>From: {{ name }}</strong></p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
