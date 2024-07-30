@@ -175,5 +175,3 @@ def background():
     # Ensure the path to your GIF is correct
     return send_from_directory('static/images', 'shootingstar.gif')
 
-if __name__ == '__main__':
-    app.run(debug=True)
